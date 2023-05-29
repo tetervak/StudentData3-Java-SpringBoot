@@ -169,7 +169,7 @@ public class StudentDataController {
         log.trace("editStudent() is called");
         log.debug("id = " + id);
         try {
-            Student student = studentDataRepository.getReferenceById(Integer.parseInt(id));
+            Student student = studentDataRepository.findById(Integer.parseInt(id)).orElseThrow();
             model.addAttribute("student", student);
             List<Program> programs = programDataRepository.findAll();
             model.addAttribute("programs", programs);
@@ -177,7 +177,7 @@ public class StudentDataController {
         } catch (NumberFormatException e) {
             log.trace("the id is missing or not an integer");
             return "DataNotFound";
-        } catch (EntityNotFoundException e){
+        } catch (NoSuchElementException e){
             log.trace("no data for this id=" + id);
             return "DataNotFound";
         }
@@ -192,6 +192,10 @@ public class StudentDataController {
         log.trace("updateStudent() is called");
         log.debug("studentData = " + student);
         // checking for the input validation errors
+        if(!programDataRepository.existsById(student.getProgram().getId())){
+            bindingResult.rejectValue("program.id", "Invalid.student.program.id");
+            log.trace("invalid program id");
+        }
         if (bindingResult.hasErrors()) {
             log.trace("input validation errors");
             model.addAttribute("student", student);
