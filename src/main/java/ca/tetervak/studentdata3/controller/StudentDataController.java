@@ -157,9 +157,6 @@ public class StudentDataController {
         } catch (NumberFormatException e) {
             log.trace("the id is missing or not an integer");
             return "DataNotFound";
-        } catch (EntityNotFoundException e){
-            log.trace("no data for this id=" + id);
-            return "DataNotFound";
         }
         return "redirect:/list-students";
     }
