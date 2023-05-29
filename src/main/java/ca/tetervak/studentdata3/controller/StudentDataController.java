@@ -4,7 +4,6 @@ import ca.tetervak.studentdata3.data.Program;
 import ca.tetervak.studentdata3.data.ProgramDataRepository;
 import ca.tetervak.studentdata3.data.Student;
 import ca.tetervak.studentdata3.data.StudentDataRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
