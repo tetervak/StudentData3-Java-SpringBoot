@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 public class StudentDataController {
@@ -92,14 +93,15 @@ public class StudentDataController {
         try {
             log.trace("looking for the data in the database");
             Student student =
-                    studentDataRepository.getReferenceById(Integer.parseInt(id));
+                    studentDataRepository.findById(Integer.parseInt(id)).orElseThrow();
+            log.debug("student = " + student);
             log.trace("showing the data in the confirmation page");
             model.addAttribute("student", student);
             return "ConfirmInsert";
         } catch (NumberFormatException e) {
             log.trace("the id is not an integer");
             return "DataNotFound";
-        } catch (EntityNotFoundException e){
+        } catch (NoSuchElementException e){
             log.trace("no data for this id=" + id);
             return "DataNotFound";
         }
@@ -117,13 +119,13 @@ public class StudentDataController {
         log.trace("studentDetails() is called");
         log.debug("id = " + id);
         try {
-            Student student = studentDataRepository.getReferenceById(Integer.parseInt(id));
+            Student student = studentDataRepository.findById(Integer.parseInt(id)).orElseThrow();
             model.addAttribute("student", student);
             return "StudentDetails"; // show the student data in the form to edit
         } catch (NumberFormatException e) {
             log.trace("the id is missing or not an integer");
             return "DataNotFound";
-        } catch (EntityNotFoundException e){
+        } catch (NoSuchElementException e){
             log.trace("no data for this id=" + id);
             return "DataNotFound";
         }
@@ -134,13 +136,13 @@ public class StudentDataController {
     public String deleteStudent(@RequestParam String id, Model model) {
         log.trace("deleteStudent() is called");
         try {
-            Student student = studentDataRepository.getReferenceById(Integer.parseInt(id));
+            Student student = studentDataRepository.findById(Integer.parseInt(id)).orElseThrow();
             model.addAttribute("student", student);
             return "DeleteStudent"; // ask "Do you really want to remove?"
         } catch (NumberFormatException e) {
             log.trace("the id is missing or not an integer");
             return "DataNotFound";
-        } catch (EntityNotFoundException e){
+        } catch (NoSuchElementException e){
             log.trace("no data for this id=" + id);
             return "DataNotFound";
         }

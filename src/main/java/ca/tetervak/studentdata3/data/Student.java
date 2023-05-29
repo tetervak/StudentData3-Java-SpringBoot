@@ -105,7 +105,7 @@ public class Student {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", program.id='" + program + '\'' +
+                ", program='" + program + '\'' +
                 ", programYear=" + programYear +
                 ", programCoop=" + programCoop +
                 ", programInternship=" + programInternship +
