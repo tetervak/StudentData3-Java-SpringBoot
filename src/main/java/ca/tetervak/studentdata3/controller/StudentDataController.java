@@ -70,6 +70,7 @@ public class StudentDataController {
         if(!programDataRepository.existsById(student.getProgram().getId())){
            bindingResult.rejectValue("program.id", "Invalid.student.program.id");
            log.trace("invalid program id");
+           log.debug("program.id = " + student.getProgram().getId());
         }
         if (bindingResult.hasErrors()) {
             log.trace("input validation errors");
@@ -101,7 +102,7 @@ public class StudentDataController {
             log.trace("the id is not an integer");
             return "DataNotFound";
         } catch (NoSuchElementException e){
-            log.trace("no data for this id=" + id);
+            log.trace("no data for this id = " + id);
             return "DataNotFound";
         }
     }
@@ -195,6 +196,7 @@ public class StudentDataController {
         if(!programDataRepository.existsById(student.getProgram().getId())){
             bindingResult.rejectValue("program.id", "Invalid.student.program.id");
             log.trace("invalid program id");
+            log.debug("program.id = " + student.getProgram().getId());
         }
         if (bindingResult.hasErrors()) {
             log.trace("input validation errors");
