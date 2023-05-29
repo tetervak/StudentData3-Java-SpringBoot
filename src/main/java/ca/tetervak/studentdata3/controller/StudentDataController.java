@@ -134,6 +134,7 @@ public class StudentDataController {
     @GetMapping("/delete-student")
     public String deleteStudent(@RequestParam String id, Model model) {
         log.trace("deleteStudent() is called");
+        log.debug("id = " + id);
         try {
             Student student = studentDataRepository.findById(Integer.parseInt(id)).orElseThrow();
             model.addAttribute("student", student);
@@ -142,7 +143,7 @@ public class StudentDataController {
             log.trace("the id is missing or not an integer");
             return "DataNotFound";
         } catch (NoSuchElementException e){
-            log.trace("no data for this id=" + id);
+            log.trace("no data for this id = " + id);
             return "DataNotFound";
         }
     }
@@ -177,7 +178,7 @@ public class StudentDataController {
             log.trace("the id is missing or not an integer");
             return "DataNotFound";
         } catch (NoSuchElementException e){
-            log.trace("no data for this id=" + id);
+            log.trace("no data for this id = " + id);
             return "DataNotFound";
         }
     }
@@ -189,7 +190,7 @@ public class StudentDataController {
             BindingResult bindingResult,
             Model model) {
         log.trace("updateStudent() is called");
-        log.debug("studentData = " + student);
+        log.debug("student = " + student);
         // checking for the input validation errors
         if(!programDataRepository.existsById(student.getProgram().getId())){
             bindingResult.rejectValue("program.id", "Invalid.student.program.id");
