@@ -1,46 +1,33 @@
 package ca.tetervak.studentdata3.data;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "student")
-public class Student {
+public class StudentJdbc {
 
-    @Column(name = "id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id = 0;
 
-    @Column(name = "first_name")
     @NotBlank
     @Size(max = 30)
     private String firstName = "";
 
-    @Column(name = "last_name")
     @NotBlank
     @Size(max = 30)
     private String lastName = "";
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "program_id", nullable = false)
-    private Program program;
+    private ProgramJdbc program;
 
-    @Column(name = "program_year")
     @Min(1)
     @Max(3)
     private Integer programYear = 0;
 
-    @Column(name = "program_coop")
     private Boolean programCoop = false;
 
-    @Column(name = "program_internship")
     private Boolean programInternship = false;
 
-    public Student() {
+    public StudentJdbc() {
     }
 
     public Integer getId() {
@@ -67,11 +54,11 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public Program getProgram() {
+    public ProgramJdbc getProgram() {
         return program;
     }
 
-    public void setProgram(Program program) {
+    public void setProgram(ProgramJdbc program) {
         this.program = program;
     }
 

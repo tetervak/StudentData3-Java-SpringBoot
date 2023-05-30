@@ -1,9 +1,6 @@
 package ca.tetervak.studentdata3.controller;
 
-import ca.tetervak.studentdata3.data.Program;
-import ca.tetervak.studentdata3.data.ProgramDataRepository;
-import ca.tetervak.studentdata3.data.Student;
-import ca.tetervak.studentdata3.data.StudentDataRepository;
+import ca.tetervak.studentdata3.data.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -21,15 +18,15 @@ public class StudentDataController {
 
     private final Logger log = LoggerFactory.getLogger(StudentDataController.class);
 
-    private final StudentDataRepository studentDataRepository;
-    private final ProgramDataRepository programDataRepository;
+    private final StudentDataRepositoryJdbc studentDataRepositoryJdbc;
+    private final ProgramDataRepositoryJdbc programDataRepositoryJdbc;
 
     public StudentDataController(
-            StudentDataRepository studentDataRepository,
-            ProgramDataRepository programDataRepository
+            StudentDataRepositoryJdbc studentDataRepositoryJdbc,
+            ProgramDataRepositoryJdbc programDataRepositoryJdbc
     ) {
-        this.studentDataRepository = studentDataRepository;
-        this.programDataRepository = programDataRepository;
+        this.studentDataRepositoryJdbc = studentDataRepositoryJdbc;
+        this.programDataRepositoryJdbc = programDataRepositoryJdbc;
     }
 
     @GetMapping(value={"/", "/index"})
@@ -41,7 +38,7 @@ public class StudentDataController {
     @GetMapping("/list-students")
     public ModelAndView listStudents() {
         log.trace("listStudents() is called");
-        List<Student> students = studentDataRepository.findAll();
+        List<StudentJdbc> students = studentDataRepositoryJdbc.findAll();
         log.debug("list size = " + students.size());
         return new ModelAndView("ListStudents", "students", students);
     }
@@ -49,25 +46,25 @@ public class StudentDataController {
     @GetMapping("/add-student")
     public ModelAndView addStudent(){
         log.trace("addStudent() is called");
-        Student student = new Student();
+        StudentJdbc student = new StudentJdbc();
         ModelAndView modelAndView =
                 new ModelAndView("AddStudent",
                                     "student", student);
-        List<Program> programs = programDataRepository.findAll();
+        List<ProgramJdbc> programs = programDataRepositoryJdbc.findAll();
         modelAndView.addObject("programs", programs);
         return modelAndView;
     }
 
     @PostMapping("/insert-student")
     public String insertStudent(
-            @Validated @ModelAttribute Student student,
+            @Validated @ModelAttribute("student") StudentJdbc student,
             BindingResult bindingResult,
             Model model
     ){
         log.trace("insertStudent() is called");
         log.debug("student = " + student);
         // checking for the input validation errors
-        if(!programDataRepository.existsById(student.getProgram().getId())){
+        if(!programDataRepositoryJdbc.existsById(student.getProgram().getId())){
            bindingResult.rejectValue("program.id", "Invalid.student.program.id");
            log.trace("invalid program id");
            log.debug("program.id = " + student.getProgram().getId());
@@ -75,12 +72,12 @@ public class StudentDataController {
         if (bindingResult.hasErrors()) {
             log.trace("input validation errors");
             model.addAttribute("student", student);
-            List<Program> programs = programDataRepository.findAll();
+            List<ProgramJdbc> programs = programDataRepositoryJdbc.findAll();
             model.addAttribute("programs", programs);
             return "AddStudent";
         } else {
             log.trace("the user inputs are correct");
-            Student savedStudent = studentDataRepository.save(student);
+            StudentJdbc savedStudent = studentDataRepositoryJdbc.insert(student);
             log.debug("id = " + savedStudent.getId());
             return"redirect:/confirm-insert/" + savedStudent.getId();
         }
@@ -92,8 +89,8 @@ public class StudentDataController {
         log.debug("id = " + id);
         try {
             log.trace("looking for the data in the database");
-            Student student =
-                    studentDataRepository.findById(Integer.parseInt(id)).orElseThrow();
+            StudentJdbc student =
+                    studentDataRepositoryJdbc.findById(Integer.parseInt(id)).orElseThrow();
             log.debug("student = " + student);
             log.trace("showing the data in the confirmation page");
             model.addAttribute("student", student);
@@ -110,7 +107,7 @@ public class StudentDataController {
     @GetMapping("/delete-all")
     public String deleteAll(){
         log.trace("deleteAll() is called");
-        studentDataRepository.deleteAll();
+        studentDataRepositoryJdbc.deleteAll();
         return "redirect:/list-students";
     }
 
@@ -119,7 +116,7 @@ public class StudentDataController {
         log.trace("studentDetails() is called");
         log.debug("id = " + id);
         try {
-            Student student = studentDataRepository.findById(Integer.parseInt(id)).orElseThrow();
+            StudentJdbc student = studentDataRepositoryJdbc.findById(Integer.parseInt(id)).orElseThrow();
             model.addAttribute("student", student);
             return "StudentDetails"; // show the student data in the form to edit
         } catch (NumberFormatException e) {
@@ -137,7 +134,7 @@ public class StudentDataController {
         log.trace("deleteStudent() is called");
         log.debug("id = " + id);
         try {
-            Student student = studentDataRepository.findById(Integer.parseInt(id)).orElseThrow();
+            StudentJdbc student = studentDataRepositoryJdbc.findById(Integer.parseInt(id)).orElseThrow();
             model.addAttribute("student", student);
             return "DeleteStudent"; // ask "Do you really want to remove?"
         } catch (NumberFormatException e) {
@@ -156,7 +153,7 @@ public class StudentDataController {
         log.trace("removeStudent() is called");
         log.debug("id = " + id);
         try {
-            studentDataRepository.deleteById(Integer.parseInt(id));
+            studentDataRepositoryJdbc.deleteById(Integer.parseInt(id));
         } catch (NumberFormatException e) {
             log.trace("the id is missing or not an integer");
             return "DataNotFound";
@@ -170,9 +167,9 @@ public class StudentDataController {
         log.trace("editStudent() is called");
         log.debug("id = " + id);
         try {
-            Student student = studentDataRepository.findById(Integer.parseInt(id)).orElseThrow();
+            StudentJdbc student = studentDataRepositoryJdbc.findById(Integer.parseInt(id)).orElseThrow();
             model.addAttribute("student", student);
-            List<Program> programs = programDataRepository.findAll();
+            List<ProgramJdbc> programs = programDataRepositoryJdbc.findAll();
             model.addAttribute("programs", programs);
             return "EditStudent";
         } catch (NumberFormatException e) {
@@ -187,13 +184,13 @@ public class StudentDataController {
     // the form submits the data to "UpdateStudent"
     @PostMapping("/update-student")
     public String updateStudent(
-            @Validated @ModelAttribute Student student,
+            @Validated @ModelAttribute("student") StudentJdbc student,
             BindingResult bindingResult,
             Model model) {
         log.trace("updateStudent() is called");
         log.debug("student = " + student);
         // checking for the input validation errors
-        if(!programDataRepository.existsById(student.getProgram().getId())){
+        if(!programDataRepositoryJdbc.existsById(student.getProgram().getId())){
             bindingResult.rejectValue("program.id", "Invalid.student.program.id");
             log.trace("invalid program id");
             log.debug("program.id = " + student.getProgram().getId());
@@ -201,12 +198,12 @@ public class StudentDataController {
         if (bindingResult.hasErrors()) {
             log.trace("input validation errors");
             model.addAttribute("student", student);
-            List<Program> programs = programDataRepository.findAll();
+            List<ProgramJdbc> programs = programDataRepositoryJdbc.findAll();
             model.addAttribute("programs", programs);
             return "EditStudent";
         } else {
             log.trace("the user inputs are correct");
-            studentDataRepository.save(student);
+            studentDataRepositoryJdbc.update(student);
             log.debug("id = " + student.getId());
             return "redirect:/student-details/" + student.getId();
         }

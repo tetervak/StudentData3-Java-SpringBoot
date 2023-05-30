@@ -1,24 +1,11 @@
 package ca.tetervak.studentdata3.data;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+public class ProgramJdbc {
 
-@Entity
-@Table(name = "program")
-public class Program {
-
-    @Column(name = "id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id = 0;
-
-    @Column(name = "program_name")
-    @NotBlank
-    @Size(max = 30)
     private String programName = "";
 
-    public Program() {
+    public ProgramJdbc() {
     }
 
     public Integer getId() {
