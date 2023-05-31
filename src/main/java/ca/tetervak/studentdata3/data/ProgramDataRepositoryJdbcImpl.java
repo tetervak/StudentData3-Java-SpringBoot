@@ -1,11 +1,13 @@
 package ca.tetervak.studentdata3.data;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ProgramDataRepositoryJdbcImpl implements ProgramDataRepositoryJdbc{
@@ -27,4 +29,19 @@ public class ProgramDataRepositoryJdbcImpl implements ProgramDataRepositoryJdbc{
         String sql = "SELECT EXISTS(SELECT id FROM program WHERE id=?)";
         return jdbcTemplate.queryForObject(sql, Boolean.class, id);
     }
+
+    @Override
+    public Optional<ProgramJdbc> findById(Integer id) {
+        RowMapper<ProgramJdbc> rowMapper = new BeanPropertyRowMapper<>(ProgramJdbc.class);
+        String sql = "SELECT * FROM program WHERE id=?";
+        try{
+            ProgramJdbc program = jdbcTemplate.queryForObject(sql, rowMapper, id);
+            return Optional.of(program);
+        } catch (DataAccessException e){
+            return Optional.empty();
+        }
+
+    }
+
+
 }
