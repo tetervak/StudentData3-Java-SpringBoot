@@ -25,7 +25,7 @@ public class ProgramDataRepositoryJdbcImpl implements ProgramDataRepositoryJdbc{
     }
 
     @Override
-    public boolean existsById(Integer id) {
+    public Boolean existsById(Integer id) {
         String sql = "SELECT EXISTS(SELECT id FROM program WHERE id=?)";
         return jdbcTemplate.queryForObject(sql, Boolean.class, id);
     }
@@ -36,6 +36,7 @@ public class ProgramDataRepositoryJdbcImpl implements ProgramDataRepositoryJdbc{
         String sql = "SELECT * FROM program WHERE id=?";
         try{
             ProgramJdbc program = jdbcTemplate.queryForObject(sql, rowMapper, id);
+            assert program != null;
             return Optional.of(program);
         } catch (DataAccessException e){
             return Optional.empty();

@@ -7,7 +7,7 @@ public interface ProgramDataRepositoryJdbc {
 
     List<ProgramJdbc> findAll();
 
-    boolean existsById(Integer id);
+    Boolean existsById(Integer id);
 
     Optional<ProgramJdbc> findById(Integer id);
 }
