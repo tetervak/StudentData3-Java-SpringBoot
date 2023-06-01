@@ -83,10 +83,10 @@ public class StudentDataRepositoryJdbcImpl implements StudentDataRepositoryJdbc{
     @Override
     public void update(StudentJdbc student) {
         String sql = "UPDATE student SET "
-                + "first_name = :first_name, last_name = :last_name, "
-                + "program_id = :program_id, program_year = :program_year, "
-                + "program_coop = :program_coop, program_internship = :program_internship "
-                + "WHERE id = :id";
+                + "first_name=:first_name, last_name=:last_name, "
+                + "program_id=:program_id, program_year=:program_year, "
+                + "program_coop=:program_coop, program_internship=:program_internship "
+                + "WHERE id=:id";
         MapSqlParameterSource params = getParameterSource(student);
         namedParameterJdbcTemplate.update(sql, params);
     }

@@ -10,4 +10,8 @@ public interface ProgramDataRepositoryJdbc {
     Boolean existsById(Integer id);
 
     Optional<ProgramJdbc> findById(Integer id);
+
+    void update(ProgramJdbc program);
+
+    ProgramJdbc insert(ProgramJdbc program);
 }
