@@ -7,9 +7,9 @@ CREATE TABLE student (
      first_name VARCHAR(30),
      last_name VARCHAR(30),
      program_id INTEGER NOT NULL,
+     international BOOLEAN,
      program_year INTEGER,
      program_coop BOOLEAN,
-     international BOOLEAN,
      FOREIGN KEY(program_id) REFERENCES program(id)
 );
 
