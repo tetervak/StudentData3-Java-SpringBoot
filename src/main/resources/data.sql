@@ -6,9 +6,9 @@ VALUES
     ('Engineering Technician');
 
 INSERT INTO student
-    (first_name, last_name, program_id, program_year, program_coop, international)
+    (first_name, last_name, program_id, international, program_year, program_coop)
 VALUES
-    ('Bart','Simpson',1,1,true,false),
-    ('Lisa','Simpson',2,2,false,true),
-    ('Homer','Simpson',2,1,false,false),
-    ('Marge','Simpson',3,2,true,true);
+    ('Bart','Simpson',1,false,1,true),
+    ('Lisa','Simpson',2,true,2,false),
+    ('Homer','Simpson',2,false,1,false),
+    ('Marge','Simpson',3,true,2,true);
