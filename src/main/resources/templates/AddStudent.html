@@ -41,15 +41,17 @@
             </select>
         </p>
         <p>
+            <label><input type="checkbox" th:field="*{international}" th:value="yes"/>&nbsp;International</label>
+        </p>
+        <p>
             <label class="group_label">Year</label><br>
-            <label><input type="radio" th:field="*{programYear}" th:value="1">1</label>
-            <label><input type="radio" th:field="*{programYear}" th:value="2">2</label>
-            <label><input type="radio" th:field="*{programYear}" th:value="3">3</label>
+            <label><input type="radio" th:field="*{programYear}" th:value="1">&nbsp;1</label>
+            <label><input type="radio" th:field="*{programYear}" th:value="2">&nbsp;2</label>
+            <label><input type="radio" th:field="*{programYear}" th:value="3">&nbsp;3</label>
         </p>
         <p>
             <label class="group_label">Options</label><br>
-            <label><input type="checkbox" th:field="*{programCoop}" th:value="yes"/>Co-op</label>
-            <label><input type="checkbox" th:field="*{programInternship}" th:value="yes"/>Internship</label>
+            <label><input type="checkbox" th:field="*{programCoop}" th:value="yes"/>&nbsp;Co-op</label>
         </p>
         <p>
             <input type="reset" value="Clear"/>

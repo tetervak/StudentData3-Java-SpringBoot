@@ -27,16 +27,16 @@
             <span class="output" th:text="*{program.programName}">Computer Programmer</span>
         </p>
         <p>
+            <label class="group_label">International:</label>
+            <span class="output" th:text="*{international}?'yes':'no'">no</span>
+        </p>
+        <p>
             <label class="group_label">Year:</label>
             <span class="output" th:text="*{programYear}">1</span>
         </p>
         <p>
             <label class="group_label">Co-op:</label>
             <span class="output" th:text="*{programCoop}?'yes':'no'">yes</span>
-        </p>
-        <p>
-            <label class="group_label">Internship:</label>
-            <span class="output" th:text="*{programInternship}?'yes':'no'">no</span>
         </p>
     </div>
     <p><a href="Index.html" th:href="@{/index}">Index</a></p>
