@@ -25,7 +25,7 @@ public class StudentJdbc {
 
     private Boolean programCoop = false;
 
-    private Boolean programInternship = false;
+    private Boolean international = false;
 
     public StudentJdbc() {
     }
@@ -78,24 +78,24 @@ public class StudentJdbc {
         this.programCoop = programCoop;
     }
 
-    public Boolean getProgramInternship() {
-        return programInternship;
+    public Boolean getInternational() {
+        return international;
     }
 
-    public void setProgramInternship(Boolean programInternship) {
-        this.programInternship = programInternship;
+    public void setInternational(Boolean international) {
+        this.international = international;
     }
 
     @Override
     public String toString() {
-        return "StudentData{" +
+        return "Student{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", program='" + program + '\'' +
+                ", program=" + program +
                 ", programYear=" + programYear +
                 ", programCoop=" + programCoop +
-                ", programInternship=" + programInternship +
+                ", international=" + international +
                 '}';
     }
 }
