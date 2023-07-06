@@ -29,6 +29,9 @@ public class Student {
     @JoinColumn(name = "program_id", nullable = false)
     private Program program;
 
+    @Column(name = "international")
+    private Boolean international = false;
+
     @Column(name = "program_year")
     @Min(1)
     @Max(3)
@@ -36,9 +39,6 @@ public class Student {
 
     @Column(name = "program_coop")
     private Boolean programCoop = false;
-
-    @Column(name = "international")
-    private Boolean international = false;
 
     public Student() {
     }
@@ -75,6 +75,14 @@ public class Student {
         this.program = program;
     }
 
+    public Boolean getInternational() {
+        return international;
+    }
+
+    public void setInternational(Boolean international) {
+        this.international = international;
+    }
+
     public Integer getProgramYear() {
         return programYear;
     }
@@ -89,14 +97,6 @@ public class Student {
 
     public void setProgramCoop(Boolean programCoop) {
         this.programCoop = programCoop;
-    }
-
-    public Boolean getInternational() {
-        return international;
-    }
-
-    public void setInternational(Boolean international) {
-        this.international = international;
     }
 
     @Override
