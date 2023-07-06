@@ -56,9 +56,9 @@ public class StudentDataRepositoryJdbcImpl implements StudentDataRepositoryJdbc{
     @Override
     public StudentJdbc insert(StudentJdbc student) {
         String sql = "INSERT INTO student "
-                + "(first_name, last_name, program_id, program_year, program_coop, program_internship) "
+                + "(first_name, last_name, program_id, international, program_year, program_coop) "
                 + "VALUES "
-                + "(:first_name, :last_name, :program_id, :program_year, :program_coop, :program_internship)";
+                + "(:first_name, :last_name, :program_id, :international, :program_year, :program_coop)";
 
         MapSqlParameterSource params = getParameterSource(student);
         GeneratedKeyHolder keys = new GeneratedKeyHolder();
@@ -74,9 +74,9 @@ public class StudentDataRepositoryJdbcImpl implements StudentDataRepositoryJdbc{
         params.addValue("first_name", student.getFirstName().trim());
         params.addValue("last_name", student.getLastName().trim());
         params.addValue("program_id", student.getProgram().getId());
+        params.addValue("international", student.getInternational());
         params.addValue("program_year", student.getProgramYear());
         params.addValue("program_coop", student.getProgramCoop());
-        params.addValue("program_internship", student.getProgramInternship());
         return params;
     }
 
@@ -84,8 +84,8 @@ public class StudentDataRepositoryJdbcImpl implements StudentDataRepositoryJdbc{
     public void update(StudentJdbc student) {
         String sql = "UPDATE student SET "
                 + "first_name=:first_name, last_name=:last_name, "
-                + "program_id=:program_id, program_year=:program_year, "
-                + "program_coop=:program_coop, program_internship=:program_internship "
+                + "program_id=:program_id, international=:international, program_year=:program_year, "
+                + "program_coop=:program_coop "
                 + "WHERE id=:id";
         MapSqlParameterSource params = getParameterSource(student);
         namedParameterJdbcTemplate.update(sql, params);
@@ -111,9 +111,9 @@ public class StudentDataRepositoryJdbcImpl implements StudentDataRepositoryJdbc{
             student.setFirstName(rs.getString("first_name"));
             student.setLastName(rs.getString("last_name"));
             student.setProgram(program);
+            student.setInternational(rs.getBoolean("international"));
             student.setProgramYear(rs.getInt("program_year"));
             student.setProgramCoop(rs.getBoolean("program_coop"));
-            student.setProgramInternship(rs.getBoolean("program_internship"));
 
             return student;
         }

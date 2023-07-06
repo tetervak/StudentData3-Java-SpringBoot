@@ -19,13 +19,13 @@ public class StudentJdbc {
 
     private ProgramJdbc program;
 
+    private Boolean international = false;
+
     @Min(1)
     @Max(3)
     private Integer programYear = 0;
 
     private Boolean programCoop = false;
-
-    private Boolean international = false;
 
     public StudentJdbc() {
     }
