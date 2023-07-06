@@ -106,9 +106,9 @@ public class Student {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", program=" + program +
+                ", international=" + international +
                 ", programYear=" + programYear +
                 ", programCoop=" + programCoop +
-                ", international=" + international +
                 '}';
     }
 }
